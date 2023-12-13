@@ -19,3 +19,12 @@ Welcome to the AR/VR Tutorials Repository! This collection of tutorials is desig
 ### Tutorial 4: VR Object Interactions and Manipulation
 - Build upon your VR configuration knowledge and explore object interactions and manipulation in a virtual space.
 - Learn techniques to enhance user engagement and interaction in VR environments.
+
+## Resources
+
+### AR
+- You can check out a Youtube playlist - [Vuforia-Augmented Reality Course](https://www.youtube.com/watch?v=2Vu_lEYgkyQ&list=PL_Nji0JOuXg0tJ-HQ8g0OgEjIxL5RO1R2)
+- All basic Vuforia-Unity functionalities could be implemented using the attached video - [How to create an Augmented Reality App](https://www.youtube.com/watch?v=MtiUx_szKbI&t=907s)
+
+### VR
+- Please check out a Youtube channel for in-depth understanding of VR - [Valem Tutorials](https://www.youtube.com/@ValemTutorials)
