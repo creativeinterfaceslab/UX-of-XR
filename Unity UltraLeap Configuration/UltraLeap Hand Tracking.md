@@ -51,7 +51,7 @@ Make sure you have the following software and hardware:
    - **URL**: [https://package.openupm.com](https://package.openupm.com)
    - **Scope(s)**: `com.ultraleap`
   
- ![XR Management](../Images/image.png)
+ ![scopedregistry](../Images/scopedregistry.png)
 
 
 ##### Step 2: Open Package Manager
@@ -59,7 +59,7 @@ Make sure you have the following software and hardware:
 1. Open the **Package Manager** by navigating to **Window -> Package Manager**.
 2. In the dropdown at the top left of the window, select **My Registries**.
 
- ![XR Management](../Images/image.png)
+ ![mrregistries](../Images/myregistries.png)
 
 
 ##### Step 3: Install Ultraleap Tracking Package
@@ -68,7 +68,9 @@ Make sure you have the following software and hardware:
 2. Find the **Ultraleap Tracking** package and select it.
 3. Click **Install** in the bottom right corner.
 
- ![XR Management](../Images/image.png)
+
+ ![list](../Images/packagelist.png)
+
 
 
 ##### Step 4: Include Example Content
@@ -76,8 +78,11 @@ Make sure you have the following software and hardware:
 1. To include sample content that demonstrates many features of the plugin:
    - Select **Samples** for the package in the Package Manager.
    - Import the samples as shown in the Package Manager interface.
+
+
+ ![imports](../Images/sampleimport.png)
+
   
- ![XR Management](../Images/image.png)
 
 
 ##### Step 5: Test the Setup with Capsule Hands Scene
@@ -86,6 +91,9 @@ Make sure you have the following software and hardware:
    - Open the **Capsule Hands** scene from the package samples. You can find it here:
      - `Assets > Samples > Ultraleap Tracking > x.x.x > Examples > 1. XR Examples > 2. Building Blocks > 1. Basics > 1. Capsule Hands.unity`
 2. Press **Play** in Unity. You should now be able to see your hands tracking in the scene.
+
+
+ ![sample hands](../Images/capsule-hands.png)
 
 
 
