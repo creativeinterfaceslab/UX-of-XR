@@ -148,8 +148,9 @@ I will be adding a video tutorial for this setup soon. The sample projects I hav
 
 ## Demo Videos
 - The demo videos for these interactions can be found in the linked drive below.
-
-
 [Demo Videos](https://drive.google.com/drive/folders/1ryPLg95XQumVqqkawhKMK2yDl9PGU4E5?usp=sharing)
+
+
+- For more resources and information, visit the [UltraLeap Developer Portal for Unity](https://docs.ultraleap.com/xr-and-tabletop/xr/unity/getting-started/index.html).
 
 ---
