@@ -31,30 +31,30 @@ Make sure you have the following software and hardware:
 
 ## Setting up UltraLeap in Unity
 
-#### NOTE: Ensure the orientation is set as `Desktop` after installing the UltraLeap Hand Tracking software.
+#### NOTE: Ensure the orientation is set as Desktop after installing the UltraLeap Hand Tracking software.
 
 ### Basic Configuration
 1. Set up the Unity XR Plugin Management Package, which can be installed from **Edit > Project Settings**.
 
  ![XR Management](../Images/xrplugin.png)
 
-2. Subsequently select the `Open XR` option.
+2. Subsequently select the Open XR option.
 3. Ensure that all the necessary fixes which may pop up are fixed through **Edit > Project Settings > XR Plugin Management > Project Validation**.
 
 ### Hand Tracking
 
-##### Step 1: Add Ultraleap Scoped Registry
+#### Step 1: Add Ultraleap Scoped Registry
 
 1. In Unity, go to **Edit -> Project Settings -> Package Manager**.
 2. Add a new scoped registry with the following details:
    - **Name**: Ultraleap
    - **URL**: [https://package.openupm.com](https://package.openupm.com)
-   - **Scope(s)**: `com.ultraleap`
+   - **Scope(s)**: com.ultraleap
   
  ![scopedregistry](../Images/scopedregistry.png)
 
 
-##### Step 2: Open Package Manager
+#### Step 2: Open Package Manager
 
 1. Open the **Package Manager** by navigating to **Window -> Package Manager**.
 2. In the dropdown at the top left of the window, select **My Registries**.
@@ -62,7 +62,7 @@ Make sure you have the following software and hardware:
  ![mrregistries](../Images/myregistries.png)
 
 
-##### Step 3: Install Ultraleap Tracking Package
+#### Step 3: Install Ultraleap Tracking Package
 
 1. In the list on the left, you should see **Ultraleap UPM packages**.
 2. Find the **Ultraleap Tracking** package and select it.
@@ -73,7 +73,7 @@ Make sure you have the following software and hardware:
 
 
 
-##### Step 4: Include Example Content
+#### Step 4: Include Example Content
 
 1. To include sample content that demonstrates many features of the plugin:
    - Select **Samples** for the package in the Package Manager.
@@ -85,11 +85,15 @@ Make sure you have the following software and hardware:
   
 
 
-##### Step 5: Test the Setup with Capsule Hands Scene
+#### Step 5: Test the Setup with Capsule Hands Scene
 
 1. To ensure everything is set up correctly:
+   - Since we are using desktop mode, we add the **service provider (Desktop)** to the scene.
+
+   ![service provider](../Images/desktop_oritent.png)
+
    - Open the **Capsule Hands** scene from the package samples. You can find it here:
-     - `Assets > Samples > Ultraleap Tracking > x.x.x > Examples > 1. XR Examples > 2. Building Blocks > 1. Basics > 1. Capsule Hands.unity`
+     - Assets > Samples > Ultraleap Tracking > x.x.x > Examples > 1. XR Examples > 2. Building Blocks > 1. Basics > 1. Capsule Hands.unity
 2. Press **Play** in Unity. You should now be able to see your hands tracking in the scene.
 
 
@@ -97,12 +101,13 @@ Make sure you have the following software and hardware:
 
 
 
-### Adding Hand Tracking to Your Scene
+### Adding XR Rig to the Scene
 
-1. **Drag the Leap Rig prefab** from the `LeapMotion` folder into your scene.
-2. The **Leap Rig** prefab includes everything needed for hand tracking (hand models, tracking camera, etc.).
+1. **Add the XR Rig** by right clicking under sample scene and convert the main camera to XR Rig.
+   
+    ![xr rig](../Images/xr-rig.png)
 
-3. **Position the Leap Rig** correctly relative to your main camera so that the UltraLeap device can track your hands accurately.
+2. **Position the XR Rig** correctly relative to your main camera so that the UltraLeap device can track your hands accurately.
 
 ## Basic Interaction: Grabbing an Object
 
@@ -110,15 +115,41 @@ To allow interactions such as grabbing objects in your scene, follow these steps
 
 1. **Create a 3D object** (e.g., Cube) in your scene by going to **GameObject > 3D Object > Cube**.
 2. Select the Cube, and add the **Interaction Behaviour** component:
-   - Go to the **Inspector**, click **Add Component**, and search for **Interaction Behaviour**.
-   - Check **Can Be Grasped** to make the object grabbable.
+   - Go to the **Inspector**, click **Add Component**, and search for **Rigidbody**.
 
-3. **Create an Interaction Manager**:
-   - In the **Hierarchy**, create an empty GameObject named **InteractionManager**.
-   - Add the **Interaction Manager** component by clicking **Add Component > Interaction Manager**.
+3. **Create an Physical Interaction Manager**:
+   - In the **Hierarchy**, add an GameObject named **Physical Hands Manager**.
+   - Add the **Interaction Manager** component by clicking **Add Component > UltraLeap > Physical Interactions > Physical Hands Manager**.
+
+   ![physical hands manager](../Images/physical-hands-manager.png)
 
 4. **Test Interaction**:
    - Press **Play** in Unity.
    - Use your hands in front of the UltraLeap sensor to grab the Cube.
+
+
+
+That's it! You have successfully set up UltraLeap hand tracking in Unity and implemented a basic interaction in your scene. You can now build upon this project to create more complex interactions and virtual environments. 
+
+I will be adding a video tutorial for this setup soon. The sample projects I have created can be found ![here](https://drive.google.com/drive/folders/113gcTg3pcFRkuKl_jSpt5L4TmSt_RQkQ?usp=drive_link). There are 3 demo projects, each showcasing different interactions using UltraLeap Hand Tracking.
+
+## Demo Projects Overview
+- **Basic Interaction Project**: Contains simple interaction mechanics.
+- **Advanced Interaction Project**: Includes the following interactions:
+  1. Grabbing an object
+  2. Throwing an object
+  3. Rotating an object
+  4. Drawing (painting)
+
+## Project Files
+- The zip files for both the basic and advanced interaction projects include:
+  - Code and assets required to run the project.
+  - Build files that can be run on any Windows machine.
+
+## Demo Videos
+- The demo videos for these interactions can be found in the linked drive below.
+
+
+![Demo Videos](https://drive.google.com/drive/folders/1ryPLg95XQumVqqkawhKMK2yDl9PGU4E5?usp=drive_link)
 
 ---
