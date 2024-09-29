@@ -131,7 +131,7 @@ To allow interactions such as grabbing objects in your scene, follow these steps
 
 That's it! You have successfully set up UltraLeap hand tracking in Unity and implemented a basic interaction in your scene. You can now build upon this project to create more complex interactions and virtual environments. 
 
-I will be adding a video tutorial for this setup soon. The sample projects I have created can be found ![here](https://drive.google.com/drive/folders/113gcTg3pcFRkuKl_jSpt5L4TmSt_RQkQ?usp=drive_link). There are 3 demo projects, each showcasing different interactions using UltraLeap Hand Tracking.
+I will be adding a video tutorial for this setup soon. The sample projects I have created can be found [here](https://drive.google.com/drive/folders/113gcTg3pcFRkuKl_jSpt5L4TmSt_RQkQ?usp=sharing). There are 3 demo projects, each showcasing different interactions using UltraLeap Hand Tracking.
 
 ## Demo Projects Overview
 - **Basic Interaction Project**: Contains simple interaction mechanics.
@@ -150,6 +150,6 @@ I will be adding a video tutorial for this setup soon. The sample projects I hav
 - The demo videos for these interactions can be found in the linked drive below.
 
 
-![Demo Videos](https://drive.google.com/drive/folders/1ryPLg95XQumVqqkawhKMK2yDl9PGU4E5?usp=drive_link)
+[Demo Videos](https://drive.google.com/drive/folders/1ryPLg95XQumVqqkawhKMK2yDl9PGU4E5?usp=sharing)
 
 ---
