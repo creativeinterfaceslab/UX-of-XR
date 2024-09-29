@@ -8,11 +8,9 @@ This project demonstrates how to set up UltraLeap (Leap Motion) hand tracking in
    - [Prerequisites](#prerequisites)
    - [Installation](#installation)
 2. [Setting up UltraLeap in Unity](#setting-up-ultraleap-in-unity)
-   - [Installing UltraLeap SDK](#installing-ultraleap-sdk)
+   - [Basic Configuration](#basic-configuration)
    - [Adding Hand Tracking to Your Scene](#adding-hand-tracking-to-your-scene)
-3. [Basic Interaction: Grabbing an Object](#basic-interaction-grabbing-an-object)
-4. [Images](#images)
-5. [References and Resources](#references-and-resources)
+4. [Basic Interaction: Grabbing an Object](#basic-interaction-grabbing-an-object)
 
 ---
 
@@ -24,23 +22,72 @@ Make sure you have the following software and hardware:
 
 - **Unity** (Latest version recommended, download from [Unity Download Page](https://unity.com/download))
 - **UltraLeap Hand Tracking Device** (Download the latest tracking software from [UltraLeap Software Download](https://developer.leapmotion.com/tracking-software-download))
-- **UltraLeap SDK for Unity** (Available on the [UltraLeap Developer site](https://developer.leapmotion.com/unity))
 
 ### Installation
 
 1. **Download Unity Hub** from [Unity's website](https://unity.com/download).
 2. **Install Unity** and make sure to select the build support options for your platform (PC, Android, etc.).
 3. **Download and install** the **UltraLeap Hand Tracking Software** and connect your UltraLeap sensor.
-4. **Download UltraLeap SDK for Unity** from [UltraLeap Developer Unity](https://developer.leapmotion.com/unity).
 
 ## Setting up UltraLeap in Unity
 
-### Installing UltraLeap SDK
+#### NOTE: Ensure the orientation is set as `Desktop` after installing the UltraLeap Hand Tracking software.
 
-1. **Import the UltraLeap SDK**:
-    - Download the UltraLeap Unity Modules package.
-    - In Unity, navigate to **Assets > Import Package > Custom Package** and select the UltraLeap SDK you downloaded.
-    - You should now see a `LeapMotion` folder in your project’s Assets directory.
+### Basic Configuration
+1. Set up the Unity XR Plugin Management Package, which can be installed from **Edit > Project Settings**.
+
+ ![XR Management](../Images/xrplugin.png)
+
+2. Subsequently select the `Open XR` option.
+3. Ensure that all the necessary fixes which may pop up are fixed through **Edit > Project Settings > XR Plugin Management > Project Validation**.
+
+### Hand Tracking
+
+##### Step 1: Add Ultraleap Scoped Registry
+
+1. In Unity, go to **Edit -> Project Settings -> Package Manager**.
+2. Add a new scoped registry with the following details:
+   - **Name**: Ultraleap
+   - **URL**: [https://package.openupm.com](https://package.openupm.com)
+   - **Scope(s)**: `com.ultraleap`
+  
+ ![XR Management](../Images/image.png)
+
+
+##### Step 2: Open Package Manager
+
+1. Open the **Package Manager** by navigating to **Window -> Package Manager**.
+2. In the dropdown at the top left of the window, select **My Registries**.
+
+ ![XR Management](../Images/image.png)
+
+
+##### Step 3: Install Ultraleap Tracking Package
+
+1. In the list on the left, you should see **Ultraleap UPM packages**.
+2. Find the **Ultraleap Tracking** package and select it.
+3. Click **Install** in the bottom right corner.
+
+ ![XR Management](../Images/image.png)
+
+
+##### Step 4: Include Example Content
+
+1. To include sample content that demonstrates many features of the plugin:
+   - Select **Samples** for the package in the Package Manager.
+   - Import the samples as shown in the Package Manager interface.
+  
+ ![XR Management](../Images/image.png)
+
+
+##### Step 5: Test the Setup with Capsule Hands Scene
+
+1. To ensure everything is set up correctly:
+   - Open the **Capsule Hands** scene from the package samples. You can find it here:
+     - `Assets > Samples > Ultraleap Tracking > x.x.x > Examples > 1. XR Examples > 2. Building Blocks > 1. Basics > 1. Capsule Hands.unity`
+2. Press **Play** in Unity. You should now be able to see your hands tracking in the scene.
+
+
 
 ### Adding Hand Tracking to Your Scene
 
