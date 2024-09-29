@@ -93,7 +93,7 @@ Make sure you have the following software and hardware:
 2. Press **Play** in Unity. You should now be able to see your hands tracking in the scene.
 
 
- ![sample hands](../Images/capsule-hands.png)
+ ![sample hands](../Images/capsule-hands-xr.png)
 
 
 
