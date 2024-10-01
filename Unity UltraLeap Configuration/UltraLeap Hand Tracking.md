@@ -9,7 +9,7 @@ This project demonstrates how to set up UltraLeap (Leap Motion) hand tracking in
    - [Installation](#installation)
 2. [Setting up UltraLeap in Unity](#setting-up-ultraleap-in-unity)
    - [Basic Configuration](#basic-configuration)
-   - [Adding Hand Tracking to Your Scene](#adding-hand-tracking-to-your-scene)
+   - [Adding Hand Tracking to Your Scene](#hand-tracking)
 4. [Basic Interaction: Grabbing an Object](#basic-interaction-grabbing-an-object)
 
 ---
@@ -90,7 +90,7 @@ Make sure you have the following software and hardware:
 1. To ensure everything is set up correctly:
    - Since we are using desktop mode, we add the **service provider (Desktop)** to the scene.
 
-   ![service provider](../Images/desktop_oritent.png)
+   ![service provider](../Images/serviceprovider.png)
 
    - Open the **Capsule Hands** scene from the package samples. You can find it here:
      - Assets > Samples > Ultraleap Tracking > x.x.x > Examples > 1. XR Examples > 2. Building Blocks > 1. Basics > 1. Capsule Hands.unity
@@ -103,7 +103,7 @@ Make sure you have the following software and hardware:
 
 ### Adding XR Rig to the Scene
 
-1. **Add the XR Rig** by right clicking under sample scene and convert the main camera to XR Rig.
+1. **Add the XR Rig** by right-clicking under the sample scene and converting the main camera to XR Rig.
    
     ![xr rig](../Images/xr-rig.png)
 
@@ -117,7 +117,7 @@ To allow interactions such as grabbing objects in your scene, follow these steps
 2. Select the Cube, and add the **Interaction Behaviour** component:
    - Go to the **Inspector**, click **Add Component**, and search for **Rigidbody**.
 
-3. **Create an Physical Interaction Manager**:
+3. **Create a Physical Interaction Manager**:
    - In the **Hierarchy**, add an GameObject named **Physical Hands Manager**.
    - Add the **Interaction Manager** component by clicking **Add Component > UltraLeap > Physical Interactions > Physical Hands Manager**.
 
@@ -148,7 +148,7 @@ I will be adding a video tutorial for this setup soon. The sample projects I hav
 
 ## Demo Videos
 - The demo videos for these interactions can be found in the linked drive below.
-[Demo Videos](https://drive.google.com/drive/folders/1ryPLg95XQumVqqkawhKMK2yDl9PGU4E5?usp=sharing)
+[Demo Videos](https://drive.google.com/drive/folders/1ryPLg95XQumVqqkawhKMK2yDl9PGU4E5?usp=sharing).
 
 
 - For more resources and information, visit the [UltraLeap Developer Portal for Unity](https://docs.ultraleap.com/xr-and-tabletop/xr/unity/getting-started/index.html).
