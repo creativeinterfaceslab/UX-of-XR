@@ -129,6 +129,10 @@ In this tutorial, you’ll learn how to use a Makey Makey kit to control the mov
 
 ---
 
+## Demo Videos
+- The demo videos for these interactions can be found in the linked drive below.
+[Demo Videos](https://drive.google.com/drive/folders/19RwJtf7Ga9GfDBgVRQDxrh7EntPl5Ki_?usp=drive_link).
+
 ## Final Notes
 
 This basic setup demonstrates how to use a Makey Makey to control an object in Unity. From here, you can expand the project into a game by adding objectives, enemies, or interactive elements.
