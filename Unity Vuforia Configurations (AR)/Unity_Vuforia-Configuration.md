@@ -36,7 +36,7 @@ Return to the Unity Hub's "Projects" section to open the Unity editor. Click the
 
 ### 2. Unity Project Setup
 
-- Open [Vuforia Download SDK](https://developer.vuforia.com/downloads/SDK) and download the Vuforia Engine to Unity Project.
+- Open [Vuforia Download SDK](https://developer.vuforia.com/downloads/sdk) and download the Vuforia Engine to Unity Project.
   
 - To allow Unity to recognize images/3D models using the laptop camera and track and display virtual objects on these images, we will import the Vuforia Unity Package. To do this, we will navigate to Assets/Import Packages/Custom Packages at the top of the menu toolbar.
 
@@ -44,8 +44,8 @@ Here is a more detailed explanation of each step:
 
 1. Open Unity.
 
-<img width="1014" alt="setup_1" src="https://github.com/dhyanpatel3010/Vuforia_Unity-Configuration/assets/76202184/b3bc391e-4f23-4954-95e3-c1d4b1b6911a">
 
+![open unity](../Images/vuforia_1.png)
 
 
 2. In the menu toolbar, navigate to Assets > Import Packages > Custom Packages.
