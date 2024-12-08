@@ -49,9 +49,6 @@ Here is a more detailed explanation of each step:
 ![add device](../Images/vr_4.png)
 
 
-![packet manager](../Images/vr_5.png)
-
-
 4. Click Windows -> Packet Manager -> click of the "+" button and install package by name
 
 ![packet manager](../Images/vr_6.png)
