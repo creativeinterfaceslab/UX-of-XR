@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A-Frame Basic Game</title>
+    <!-- Include the A-Frame Library -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+</head>
+<body>
+
+<!-- A-Frame Scene -->
+<a-scene>
+  <!-- Sky and Ground -->
+  <a-sky color="#87CEEB"></a-sky>
+  <a-plane position="0 0 0" rotation="-90 0 0" width="20" height="20" color="#228B22"></a-plane>
+
+  <!-- Player (Controllable Box) -->
+  <a-box id="player" 
+         position="0 0.5 -3" 
+         width="1" 
+         height="1" 
+         depth="1" 
+         color="#4CC3D9" 
+         player-controls>
+  </a-box>
+
+  <!-- Scoreboard -->
+  <a-text id="scoreText" 
+          value="Score: 0" 
+          position="-4 3 -3" 
+          color="#000000" 
+          width="6">
+  </a-text>
+
+  <!-- Game Over Message -->
+  <a-text id="gameOverText" 
+          value="Game Over! Press R to Restart" 
+          position="-2 4 -3" 
+          color="#FF0000" 
+          width="8" 
+          visible="false">
+  </a-text>
+
+  <!-- Light -->
+  <a-light type="ambient" color="#FFFFFF" intensity="0.8"></a-light>
+
+
+     
+
+    
+
+    <a-entity camera position="0 3 3"></a-entity>
+
+    <!-- Instructions -->
+    <a-text value="Use 'A' and 'D' keys to move left and right" 
+    position="-1.5 1 0" 
+    color="#228B22" 
+    width="4">
+    </a-text>
+
+  <!-- Player Movement Script -->
+  <script>
+    AFRAME.registerComponent('player-controls', {
+      init: function () {
+        this.moveSpeed = 0.1;
+        this.keys = {}; // To track which keys are currently pressed
+
+        // Event listeners to track key presses
+        window.addEventListener('keydown', (e) => {
+          this.keys[e.key] = true;
+        });
+
+        window.addEventListener('keyup', (e) => {
+          this.keys[e.key] = false;
+        });
+      },
+
+      tick: function () {
+        const position = this.el.getAttribute('position');
+
+        // Left (A key)
+        if (this.keys['a'] || this.keys['A']) {
+          position.x -= this.moveSpeed;
+        }
+
+        // Right (D key)
+        if (this.keys['d'] || this.keys['D']) {
+          position.x += this.moveSpeed;
+        }
+
+        // Update the player box position
+        this.el.setAttribute('position', position);
+      }
+    });
+
+    // Game Logic Script
+    AFRAME.registerComponent('game-manager', {
+      init: function () {
+        this.score = 0;
+        this.gameOver = false;
+        this.spawnInterval = 2000; // Orbs spawn every 2 seconds
+        this.orbs = [];
+        this.spawnOrbs();
+        this.handleRestart();
+      },
+      
+      spawnOrbs: function () {
+        setInterval(() => {
+          if (!this.gameOver) {
+            const orb = document.createElement('a-sphere');
+            const randomX = (Math.random() * 16) - 8; // Random position between -8 and 8
+            orb.setAttribute('position', `${randomX} 8 -3`);
+            orb.setAttribute('radius', '0.5');
+            orb.setAttribute('color', '#FF6347');
+            orb.setAttribute('class', 'orb');
+            orb.setAttribute('falling-orb', {});
+            this.el.appendChild(orb);
+            this.orbs.push(orb);
+          }
+        }, this.spawnInterval);
+      },
+      
+      handleRestart: function () {
+        window.addEventListener('keydown', (e) => {
+          if (e.key === 'r' || e.key === 'R') {
+            location.reload();
+          }
+        });
+      },
+
+      updateScore: function () {
+        this.score += 1;
+        const scoreText = document.querySelector('#scoreText');
+        scoreText.setAttribute('value', `Score: ${this.score}`);
+      },
+
+      endGame: function () {
+        this.gameOver = true;
+        const gameOverText = document.querySelector('#gameOverText');
+        gameOverText.setAttribute('visible', true);
+      }
+    });
+
+    // Component to control orb movement
+    AFRAME.registerComponent('falling-orb', {
+      init: function () {
+        this.speed = 0.02;
+      },
+      tick: function () {
+        if (!this.el.parentNode.components['game-manager'].gameOver) {
+          const position = this.el.getAttribute('position');
+          position.y -= this.speed;
+          this.el.setAttribute('position', position);
+
+          // Check if the orb hits the ground
+          if (position.y <= 0) {
+            this.el.parentNode.components['game-manager'].endGame();
+          }
+
+          // Check for collision with the player
+          const player = document.querySelector('#player');
+          const playerPosition = player.getAttribute('position');
+          const distance = Math.sqrt(
+            Math.pow(position.x - playerPosition.x, 2) +
+            Math.pow(position.y - playerPosition.y, 2) +
+            Math.pow(position.z - playerPosition.z, 2)
+          );
+
+          if (distance < 1) {
+            this.el.parentNode.components['game-manager'].updateScore();
+            this.el.parentNode.removeChild(this.el);
+          }
+        }
+      }
+    });
+  </script>
+
+  <!-- Game Manager to Handle Orbs, Score, and Game Over -->
+  <a-entity id="gameManager" game-manager></a-entity>
+
+</a-scene>
+
+</body>
+</html>
