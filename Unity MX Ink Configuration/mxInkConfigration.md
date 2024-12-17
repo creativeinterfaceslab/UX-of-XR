@@ -136,176 +136,177 @@ The magic of the MX Ink stylus comes from its ability to provide tip pressure an
 
 2. **Example Drawing Code Snippet:**
    ```csharp
-using UnityEngine;
-using System.Collections.Generic;
 
-public class MXInkStylusHandler : MonoBehaviour
-{
-    [SerializeField] private GameObject mxInkModel;
+    using UnityEngine;
+    using System.Collections.Generic;
 
-    [SerializeField] private GameObject clusterFront;
-    [SerializeField] private GameObject clusterMiddle;
-    [SerializeField] private GameObject clusterBack;
-
-    [SerializeField] private GameObject leftController;
-    [SerializeField] private GameObject rightController;
-
-    public Color activeColor = Color.green;
-    public Color doubleTapActiveColor = Color.cyan;
-    public Color defaultColor = Color.white;
-
-    private StylusInputs stylus;
-    private LineRenderer currentLine;
-    private bool isDrawing;
-    private List<LineRenderer> drawnLines = new List<LineRenderer>(); // Store drawn lines
-
-    // Defined action names.
-    private const string MX_Ink_Pose_Right = "aim_right";
-    private const string MX_Ink_Pose_Left = "aim_left";
-    private const string MX_Ink_ClusterFront = "front";
-    private const string MX_Ink_ClusterBack = "back";
-    private const string MX_Ink_Docked = "docked";
-    private const string MX_Ink_Haptic_Pulse = "haptic_pulse";
-    private float hapticClickDuration = 0.011f;
-    private float hapticClickAmplitude = 1.0f;
-
-    private void UpdatePose()
+    public class MXInkStylusHandler : MonoBehaviour
     {
-        var leftDevice = OVRPlugin.GetCurrentInteractionProfileName(OVRPlugin.Hand.HandLeft);
-        var rightDevice = OVRPlugin.GetCurrentInteractionProfileName(OVRPlugin.Hand.HandRight);
+        [SerializeField] private GameObject mxInkModel;
 
-        bool stylusIsOnLeftHand = leftDevice.Contains("logitech");
-        bool stylusIsOnRightHand = rightDevice.Contains("logitech");
+        [SerializeField] private GameObject clusterFront;
+        [SerializeField] private GameObject clusterMiddle;
+        [SerializeField] private GameObject clusterBack;
 
-        stylus.isActive = stylusIsOnLeftHand || stylusIsOnRightHand;
-        stylus.isOnRightHand = stylusIsOnRightHand;
+        [SerializeField] private GameObject leftController;
+        [SerializeField] private GameObject rightController;
 
-        string MX_Ink_Pose = stylus.isOnRightHand ? MX_Ink_Pose_Right : MX_Ink_Pose_Left;
+        public Color activeColor = Color.green;
+        public Color doubleTapActiveColor = Color.cyan;
+        public Color defaultColor = Color.white;
 
-        mxInkModel.SetActive(stylus.isActive);
-        rightController.SetActive(!stylus.isOnRightHand || !stylus.isActive);
-        leftController.SetActive(stylus.isOnRightHand || !stylus.isActive);
+        private StylusInputs stylus;
+        private LineRenderer currentLine;
+        private bool isDrawing;
+        private List<LineRenderer> drawnLines = new List<LineRenderer>(); // Store drawn lines
 
-        if (OVRPlugin.GetActionStatePose(MX_Ink_Pose, out OVRPlugin.Posef handPose))
+        // Defined action names.
+        private const string MX_Ink_Pose_Right = "aim_right";
+        private const string MX_Ink_Pose_Left = "aim_left";
+        private const string MX_Ink_ClusterFront = "front";
+        private const string MX_Ink_ClusterBack = "back";
+        private const string MX_Ink_Docked = "docked";
+        private const string MX_Ink_Haptic_Pulse = "haptic_pulse";
+        private float hapticClickDuration = 0.011f;
+        private float hapticClickAmplitude = 1.0f;
+
+        private void UpdatePose()
         {
-            transform.localPosition = handPose.Position.FromFlippedZVector3f();
-            transform.localRotation = handPose.Orientation.FromFlippedZQuatf();
-            stylus.inkingPose.position = transform.localPosition;
-            stylus.inkingPose.rotation = transform.localRotation;
-        }
-    }
+            var leftDevice = OVRPlugin.GetCurrentInteractionProfileName(OVRPlugin.Hand.HandLeft);
+            var rightDevice = OVRPlugin.GetCurrentInteractionProfileName(OVRPlugin.Hand.HandRight);
 
-    private void Update()
-    {
-        OVRInput.Update();
-        UpdatePose();
+            bool stylusIsOnLeftHand = leftDevice.Contains("logitech");
+            bool stylusIsOnRightHand = rightDevice.Contains("logitech");
 
-        if (!OVRPlugin.GetActionStateBoolean(MX_Ink_ClusterFront, out stylus.clusterFrontValue))
-        {
-            Debug.LogError($"MX_Ink: Error getting action name: {MX_Ink_ClusterFront}");
-        }
+            stylus.isActive = stylusIsOnLeftHand || stylusIsOnRightHand;
+            stylus.isOnRightHand = stylusIsOnRightHand;
 
-        if (!OVRPlugin.GetActionStateBoolean(MX_Ink_ClusterBack, out stylus.clusterBackValue))
-        {
-            Debug.LogError($"MX_Ink: Error getting action name: {MX_Ink_ClusterBack}");
-        }
+            string MX_Ink_Pose = stylus.isOnRightHand ? MX_Ink_Pose_Right : MX_Ink_Pose_Left;
 
-        if (!OVRPlugin.GetActionStateBoolean(MX_Ink_Docked, out stylus.docked))
-        {
-            Debug.LogError($"MX_Ink: Error getting action name: {MX_Ink_Docked}");
-        }
+            mxInkModel.SetActive(stylus.isActive);
+            rightController.SetActive(!stylus.isOnRightHand || !stylus.isActive);
+            leftController.SetActive(stylus.isOnRightHand || !stylus.isActive);
 
-        stylus.any = stylus.clusterFrontValue || stylus.clusterMiddleValue > 0 || stylus.clusterBackValue;
-
-        clusterFront.GetComponent<MeshRenderer>().material.color = stylus.clusterFrontValue ? activeColor : defaultColor;
-        clusterMiddle.GetComponent<MeshRenderer>().material.color = stylus.clusterMiddleValue > 0 ? activeColor : defaultColor;
-
-        if (stylus.clusterBackValue)
-        {
-            clusterBack.GetComponent<MeshRenderer>().material.color = activeColor;
-        }
-        else
-        {
-            clusterBack.GetComponent<MeshRenderer>().material.color = defaultColor;
-        }
-
-        // Trigger erasing or drawing based on cluster front or back
-        if (stylus.clusterBackValue)
-        {
-            EraseLine();
-        }
-        else if (stylus.clusterFrontValue)
-        {
-            DrawLine();
-        }
-        else
-        {
-            // Stop drawing if the front cluster is released
-            StopDrawing();
-        }
-
-        // Haptic pulse (optional)
-        if (stylus.clusterBackValue)
-        {
-            TriggerHapticClick();
-        }
-    }
-
-    public void TriggerHapticPulse(float amplitude, float duration)
-    {
-        OVRPlugin.Hand holdingHand = stylus.isOnRightHand ? OVRPlugin.Hand.HandRight : OVRPlugin.Hand.HandLeft;
-        OVRPlugin.TriggerVibrationAction(MX_Ink_Haptic_Pulse, holdingHand, duration, amplitude);
-    }
-
-    public void TriggerHapticClick()
-    {
-        TriggerHapticPulse(hapticClickAmplitude, hapticClickDuration);
-    }
-
-    private void DrawLine()
-    {
-        if (!isDrawing)
-        {
-            // Start a new line if not currently drawing
-            currentLine = new GameObject("Line").AddComponent<LineRenderer>();
-            currentLine.positionCount = 0;
-            currentLine.material = new Material(Shader.Find("Sprites/Default"));
-            currentLine.startColor = activeColor;  // Change to active color to reflect drawing state
-            currentLine.endColor = activeColor;    // Change to active color
-            currentLine.startWidth = 0.0025f;
-            currentLine.endWidth = 0.0025f;
-            isDrawing = true;
-        }
-
-        // Update line with current position
-        currentLine.positionCount++;
-        currentLine.SetPosition(currentLine.positionCount - 1, stylus.inkingPose.position);
-    }
-
-    private void EraseLine()
-    {
-        if (drawnLines.Count > 0)
-        {
-            // Remove the most recent line (last drawn line)
-            LineRenderer lastLine = drawnLines[drawnLines.Count - 1];
-            if (lastLine != null)
+            if (OVRPlugin.GetActionStatePose(MX_Ink_Pose, out OVRPlugin.Posef handPose))
             {
-                Destroy(lastLine.gameObject);  // Destroy the last line object
-                drawnLines.RemoveAt(drawnLines.Count - 1);  // Remove it from the list
+                transform.localPosition = handPose.Position.FromFlippedZVector3f();
+                transform.localRotation = handPose.Orientation.FromFlippedZQuatf();
+                stylus.inkingPose.position = transform.localPosition;
+                stylus.inkingPose.rotation = transform.localRotation;
+            }
+        }
+
+        private void Update()
+        {
+            OVRInput.Update();
+            UpdatePose();
+
+            if (!OVRPlugin.GetActionStateBoolean(MX_Ink_ClusterFront, out stylus.clusterFrontValue))
+            {
+                Debug.LogError($"MX_Ink: Error getting action name: {MX_Ink_ClusterFront}");
+            }
+
+            if (!OVRPlugin.GetActionStateBoolean(MX_Ink_ClusterBack, out stylus.clusterBackValue))
+            {
+                Debug.LogError($"MX_Ink: Error getting action name: {MX_Ink_ClusterBack}");
+            }
+
+            if (!OVRPlugin.GetActionStateBoolean(MX_Ink_Docked, out stylus.docked))
+            {
+                Debug.LogError($"MX_Ink: Error getting action name: {MX_Ink_Docked}");
+            }
+
+            stylus.any = stylus.clusterFrontValue || stylus.clusterMiddleValue > 0 || stylus.clusterBackValue;
+
+            clusterFront.GetComponent<MeshRenderer>().material.color = stylus.clusterFrontValue ? activeColor : defaultColor;
+            clusterMiddle.GetComponent<MeshRenderer>().material.color = stylus.clusterMiddleValue > 0 ? activeColor : defaultColor;
+
+            if (stylus.clusterBackValue)
+            {
+                clusterBack.GetComponent<MeshRenderer>().material.color = activeColor;
+            }
+            else
+            {
+                clusterBack.GetComponent<MeshRenderer>().material.color = defaultColor;
+            }
+
+            // Trigger erasing or drawing based on cluster front or back
+            if (stylus.clusterBackValue)
+            {
+                EraseLine();
+            }
+            else if (stylus.clusterFrontValue)
+            {
+                DrawLine();
+            }
+            else
+            {
+                // Stop drawing if the front cluster is released
+                StopDrawing();
+            }
+
+            // Haptic pulse (optional)
+            if (stylus.clusterBackValue)
+            {
+                TriggerHapticClick();
+            }
+        }
+
+        public void TriggerHapticPulse(float amplitude, float duration)
+        {
+            OVRPlugin.Hand holdingHand = stylus.isOnRightHand ? OVRPlugin.Hand.HandRight : OVRPlugin.Hand.HandLeft;
+            OVRPlugin.TriggerVibrationAction(MX_Ink_Haptic_Pulse, holdingHand, duration, amplitude);
+        }
+
+        public void TriggerHapticClick()
+        {
+            TriggerHapticPulse(hapticClickAmplitude, hapticClickDuration);
+        }
+
+        private void DrawLine()
+        {
+            if (!isDrawing)
+            {
+                // Start a new line if not currently drawing
+                currentLine = new GameObject("Line").AddComponent<LineRenderer>();
+                currentLine.positionCount = 0;
+                currentLine.material = new Material(Shader.Find("Sprites/Default"));
+                currentLine.startColor = activeColor;  // Change to active color to reflect drawing state
+                currentLine.endColor = activeColor;    // Change to active color
+                currentLine.startWidth = 0.0025f;
+                currentLine.endWidth = 0.0025f;
+                isDrawing = true;
+            }
+
+            // Update line with current position
+            currentLine.positionCount++;
+            currentLine.SetPosition(currentLine.positionCount - 1, stylus.inkingPose.position);
+        }
+
+        private void EraseLine()
+        {
+            if (drawnLines.Count > 0)
+            {
+                // Remove the most recent line (last drawn line)
+                LineRenderer lastLine = drawnLines[drawnLines.Count - 1];
+                if (lastLine != null)
+                {
+                    Destroy(lastLine.gameObject);  // Destroy the last line object
+                    drawnLines.RemoveAt(drawnLines.Count - 1);  // Remove it from the list
+                }
+            }
+        }
+
+        private void StopDrawing()
+        {
+            if (isDrawing)
+            {
+                isDrawing = false;
+                drawnLines.Add(currentLine); // Add the current line to the list
+                currentLine = null; // Reset the current line to avoid connecting new lines to old ones
             }
         }
     }
-
-    private void StopDrawing()
-    {
-        if (isDrawing)
-        {
-            isDrawing = false;
-            drawnLines.Add(currentLine); // Add the current line to the list
-            currentLine = null; // Reset the current line to avoid connecting new lines to old ones
-        }
-    }
-}
    ```
 
    **Note:** The `StylusInputHandler` is a placeholder for the logic that reads from the OVR action sets or OpenXR Input. You’ll need to integrate this according to the stylus scripts included in the provided assets. Typically, the provided stylus code snippet shows how to query `OVRInput.Get()` or equivalent OpenXR calls to get positions and tip pressure values.
