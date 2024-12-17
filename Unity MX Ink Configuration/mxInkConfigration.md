@@ -357,4 +357,6 @@ By following the above steps, you’ve:
 - Added a simple drawing system that responds to stylus tip pressure, allowing you to draw in a VR environment.
 - Verified precision, latency, and responsiveness of the stylus input.
 
+Check out the following video [Logitech MX Ink Stylus for Meta Quest](https://www.youtube.com/watch?v=o5xn52ARebg) for futher support.
+
 The MX Ink stylus provides a more natural and precise input method than traditional controllers or hand tracking for tasks such as drawing, annotating, or interacting with fine details in VR. With these steps complete, you have a solid foundation from which to build more complex interactions and applications.
